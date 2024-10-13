@@ -22,7 +22,7 @@ sudo apt install \
 
 ```bash
 # Download code
-git clone https://github.com/julianhoever/cps-embedded-c-lab.git
+git clone https://github.com/es-ude/cps-embedded-c-lab.git
 
 # Navigate into downloaded folder
 cd cps-embedded-c-lab
