@@ -7,8 +7,9 @@ set(PICO_PLATFORM rp2040)
 
 include(pico_sdk_import.cmake)
 
-project(pico-embedded-c-labs CXX C ASM)
+project(cps-embedded-c-labs CXX C ASM)
 pico_sdk_init()
 
 add_subdirectory(lib)
 add_subdirectory(lecture_1)
+add_subdirectory(lecture_2)
