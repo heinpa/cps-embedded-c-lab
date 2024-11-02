@@ -1,0 +1,2 @@
+add_subdirectory(mcu_temperature)
+add_subdirectory(moving_ball)
