@@ -1,1 +1,5 @@
 add_subdirectory(blink)
+add_subdirectory(slide)
+add_subdirectory(increase)
+add_subdirectory(symmetrical)
+add_subdirectory(bitcounter)
