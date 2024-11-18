@@ -4,6 +4,7 @@
 #define NUM_LEDS 5
 const uint8_t LED_PINS[NUM_LEDS] = {0, 1, 2, 3, 4};
 const uint8_t BUTTON_PIN = 5;
+const uint8_t BUTTON_DELAY_MS = 10;
 
 typedef enum {UP, DOWN, PRESS, RELEASE} button_state_t;
 button_state_t previous_button_state = UP;
@@ -36,11 +37,34 @@ button_state_t button_read_up_down(void) {
 
 button_state_t button_get_state(void) {
     button_state_t current_state = button_read_up_down();
+    button_state_t new_state;
+    
+    if (current_state == DOWN) {
+        if (previous_button_state == DOWN || previous_button_state == PRESS) {
+            new_state = DOWN;
+        } else {
+            sleep_ms(BUTTON_DELAY_MS);
+            if (button_read_up_down() == DOWN) {
+                new_state = PRESS;
+            } else {
+                current_state = new_state;
+            }
+        }
+    } else {
+        if (previous_button_state == PRESS || previous_button_state == RELEASE) {
+            new_state = UP;
+        } else {
+            sleep_ms(BUTTON_DELAY_MS);
+            if (button_read_up_down() == UP) {
+                new_state = RELEASE;
+            } else {
+                current_state = new_state;
+            }
+        }
+    }
+    previous_button_state = new_state;
+    return new_state;
 
-    /*
-     * TODO: Implement denoised advanced button state detection algorithm here!
-     *       Return UP, DOWN, PRESS or RELEASE depending on the button state.
-     */
 }
 
 int main(void) {

@@ -36,11 +36,23 @@ button_state_t button_read_up_down(void) {
 
 button_state_t button_get_state(void) {
     button_state_t current_state = button_read_up_down();
-
-    /*
-     * TODO: Implement advanced button state detection algorithm here!
-     *       Return UP, DOWN, PRESS or RELEASE depending on the button state.
-     */
+    button_state_t new_state;
+    
+    if (current_state == DOWN) {
+        if (previous_button_state == DOWN || previous_button_state == PRESS) {
+            new_state = DOWN;
+        } else {
+            new_state = PRESS;
+        }
+    } else {
+        if (previous_button_state == UP || previous_button_state == RELEASE) {
+            new_state = UP;
+        } else {
+            new_state = RELEASE;
+        }
+    }
+    previous_button_state = new_state;
+    return new_state;
 }
 
 int main(void) {

@@ -36,10 +36,14 @@ button_state_t button_read_up_down(void) {
 button_state_t button_get_state(void) {
     button_state_t current_state = button_read_up_down();
 
-    /*
-     * TODO: Implement simple button state detection algorithm here!
-     *       Return RELEASE on button release and return UP if button not pressed.
-     */
+    if (current_state == DOWN) {
+        while (button_read_up_down() == DOWN) {
+            // wait for release
+        }
+        return RELEASE;
+    } else {
+        return UP;
+    }
 }
 
 int main(void) {
@@ -55,6 +59,5 @@ int main(void) {
             leds_set_index(pressed_counter);
         }
     }
-
     return 0;
 }
