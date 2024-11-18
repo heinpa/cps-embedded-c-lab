@@ -56,6 +56,26 @@ void display_render_header(void) {
     char* text = "temperature";
     ssd1306_write_string(buffer, 20, 8, text);
     ssd1306_render(&display_dev, buffer, &area);
+} 
+
+void display_render_temperature(float temperature) {
+    render_area_t area = {
+        .start_col = 0,
+        .end_col = SSD1306_WIDTH -1,
+        .start_page = 2,
+        .end_page = 2
+    };
+    const uint16_t buflen = ssd1306_calculate_render_arena_buflen(&area);
+
+    uint8_t buffer[buflen];
+    memset(buffer, 0, buflen);
+
+    uint32_t temp_int = abs((int)roundf(temperature));
+    char text_buf[4];
+    sprintf(text_buf, "%uC", temp_int);
+
+    ssd1306_write_string(buffer, 52, 0, text_buf);
+    ssd1306_render(&display_dev, buffer, &area);
 }
 
 int main(void) {
@@ -66,7 +86,11 @@ int main(void) {
 
     display_render_header();
     
-    while (1) { }
+    while (1) { 
+        float temperature = temp_read_temperature();
+        display_render_temperature(temperature);
+        sleep_ms(100);
+    }
 
     return 0;
 }
